@@ -1,5 +1,6 @@
 import React from 'react';
 import type { LR, CompanySettings } from '../types/index';
+import { TransportLogo } from './TransportLogo';
 
 interface Props {
   lr: LR;
@@ -8,7 +9,7 @@ interface Props {
   isCompact?: boolean;
 }
 
-export const LRPrintTemplate: React.FC<Props> = ({ lr, settings, copyType }) => {
+export const LRPrintTemplate: React.FC<Props> = ({ lr, settings, copyType, isCompact = false }) => {
   const currency = settings.currencySymbol || '₹';
 
   // Format currency
@@ -34,26 +35,33 @@ export const LRPrintTemplate: React.FC<Props> = ({ lr, settings, copyType }) => 
   const otherChargesTotal = (Number(lr.otherCharges) || 0) + (Number(lr.additionalCharges) || 0) - (Number(lr.discount) || 0);
 
   return (
-    <div className="lr-print-container bg-white text-black text-xs font-sans p-6 border-2 border-black max-w-[1000px] mx-auto select-text shadow-sm print:shadow-none print:border-black print:p-4 print:max-w-none print:w-full print:m-0">
+    <div className={`lr-print-container bg-white text-black font-sans border-2 border-black mx-auto select-text shadow-sm print:shadow-none print:border-black print:w-full print:m-0 ${
+      isCompact ? 'p-3 text-[10px] max-w-full' : 'p-5 text-xs max-w-[1000px]'
+    }`}>
       {/* 1. Header Row */}
-      <div className="flex justify-between items-start pb-2 border-b-2 border-black">
-        <div>
-          <h1 className="text-xl font-black uppercase tracking-wider text-black">
-            {settings.companyName || 'SRI MURUGAN TRANSPORT'}
-          </h1>
-          <p className="text-[11px] text-gray-800 leading-tight mt-0.5">
-            {settings.address}
-          </p>
-          <p className="text-[11px] font-semibold text-gray-800 mt-0.5">
-            Ph: {settings.phone} &nbsp;|&nbsp; GSTIN: {settings.gstin}
-          </p>
+      <div className="flex justify-between items-center pb-2 border-b-2 border-black">
+        <div className="flex items-center gap-3">
+          {settings.showLogoOnLR !== false && (
+            <TransportLogo settings={settings} size={isCompact ? 'sm' : 'print'} />
+          )}
+          <div>
+            <h1 className={`${isCompact ? 'text-base leading-tight' : 'text-xl'} font-black uppercase tracking-wider text-black`}>
+              {settings.companyName || 'SRI MURUGAN TRANSPORT'}
+            </h1>
+            <p className="text-[10px] text-gray-800 leading-tight mt-0.5">
+              {settings.address}
+            </p>
+            <p className="text-[10px] font-semibold text-gray-800 mt-0.5">
+              Ph: {settings.phone} &nbsp;|&nbsp; GSTIN: {settings.gstin}
+            </p>
+          </div>
         </div>
 
-        <div className="text-right flex flex-col items-end">
-          <span className="text-lg font-black uppercase tracking-widest text-black">
+        <div className="text-right flex flex-col items-end shrink-0 pl-2">
+          <span className={`${isCompact ? 'text-sm' : 'text-lg'} font-black uppercase tracking-widest text-black`}>
             LORRY RECEIPT
           </span>
-          <div className="mt-1 px-3 py-0.5 border border-black rounded text-[11px] font-bold tracking-wide uppercase bg-gray-50 print:bg-transparent">
+          <div className="mt-1 px-2.5 py-0.5 border border-black rounded text-[10px] font-bold tracking-wide uppercase bg-gray-50 print:bg-transparent">
             {copyType}
           </div>
         </div>

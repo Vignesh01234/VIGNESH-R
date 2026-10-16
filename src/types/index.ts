@@ -215,7 +215,13 @@ export interface CompanySettings {
   taxCalculationBasis: 'freight' | 'total';
   currencySymbol: string;
   printLayout: 'portrait' | 'landscape';
+  printPaperSize?: 'A4' | 'A5' | 'Letter';
+  printCopiesPerSheet?: '1' | '2' | '4';
   tagline?: string;
+  logoUrl?: string;
+  showLogoOnLR?: boolean;
+  logoStyle?: 'emblem' | 'truck' | 'badge' | 'custom';
+  backupOnExit?: boolean;
 }
 
 export interface User {
@@ -225,6 +231,8 @@ export interface User {
   role: UserRole;
   phone?: string;
   email?: string;
+  password?: string;
+  pin?: string;
   active: boolean;
 }
 

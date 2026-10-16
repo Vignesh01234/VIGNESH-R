@@ -8,6 +8,7 @@ import { api } from '../services/api';
 import { LRPrintModal } from '../components/LRPrintModal';
 import { PartyModal } from '../components/PartyModal';
 import { VehicleModal, CityModal } from '../components/MasterModals';
+import { TransportLogo } from '../components/TransportLogo';
 
 interface Props {
   initialLR?: LR | null;
@@ -452,18 +453,21 @@ export const CreateLRView: React.FC<Props> = ({
     <div className="max-w-7xl mx-auto space-y-6 pb-20">
       {/* Top Banner / Heading */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-xl border border-slate-200 shadow-xs">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 text-xs font-bold uppercase rounded-md bg-blue-100 text-blue-800 tracking-wide">
-              Data Entry
-            </span>
-            <h1 className="text-2xl font-black text-slate-900">
-              {initialLR ? `Edit Lorry Receipt: ${initialLR.lrNumber}` : 'Create New Lorry Receipt (LR)'}
-            </h1>
+        <div className="flex items-center gap-3.5">
+          <TransportLogo settings={settings} size="md" />
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="px-2.5 py-0.5 text-xs font-bold uppercase rounded-md bg-blue-100 text-blue-800 tracking-wide">
+                Data Entry
+              </span>
+              <h1 className="text-2xl font-black text-slate-900">
+                {initialLR ? `Edit Lorry Receipt: ${initialLR.lrNumber}` : 'Create New Lorry Receipt (LR)'}
+              </h1>
+            </div>
+            <p className="text-xs text-slate-500 mt-1">
+              Single entry records master details, ledgers, payment tracking, and all 4 printable copies (Consignor, Consignee, Driver & Office).
+            </p>
           </div>
-          <p className="text-xs text-slate-500 mt-1">
-            Single entry records master details, ledgers, payment tracking, and all 4 printable copies (Consignor, Consignee, Driver & Office).
-          </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2.5 w-full sm:w-auto">

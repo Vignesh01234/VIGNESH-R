@@ -7,6 +7,7 @@ import {
 import type { CompanySettings, LR, Payment } from '../types/index';
 import { api } from '../services/api';
 import { LRPrintModal } from '../components/LRPrintModal';
+import { TransportLogo } from '../components/TransportLogo';
 
 interface Props {
   settings: CompanySettings;
@@ -40,19 +41,24 @@ export const DashboardView: React.FC<Props> = ({ settings, currentUser, onNaviga
     <div className="space-y-6">
       {/* Welcome Banner */}
       <div className="bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 text-white p-6 sm:p-8 rounded-2xl shadow-md border border-slate-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-black uppercase bg-blue-500/30 text-blue-300 border border-blue-400/30">
-              Live Operations Terminal
-            </span>
-            <span className="text-xs text-slate-400">South India Daily Cargo Network</span>
+        <div className="flex items-center gap-4">
+          <div className="p-2 bg-white/10 rounded-2xl border border-white/20 backdrop-blur-xs shadow-inner">
+            <TransportLogo settings={settings} size="lg" />
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black mt-2 tracking-tight">
-            {settings.companyName || 'SRI MURUGAN TRANSPORT'}
-          </h1>
-          <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-xl">
-            {settings.tagline || 'Prompt, Safe & Reliable Daily Cargo Services Across South India'}
-          </p>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-black uppercase bg-blue-500/30 text-blue-300 border border-blue-400/30">
+                Live Operations Terminal
+              </span>
+              <span className="text-xs text-slate-400">South India Daily Cargo Network</span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-black mt-1.5 tracking-tight">
+              {settings.companyName || 'SRI MURUGAN TRANSPORT'}
+            </h1>
+            <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-xl">
+              {settings.tagline || 'Prompt, Safe & Reliable Daily Cargo Services Across South India'}
+            </p>
+          </div>
         </div>
 
         <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">

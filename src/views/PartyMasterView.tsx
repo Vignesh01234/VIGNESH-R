@@ -9,15 +9,16 @@ import { PartyModal } from '../components/PartyModal';
 
 interface Props {
   settings: CompanySettings;
-  filterType?: 'All' | 'Consignor' | 'Consignee';
+  filterType?: string;
+  initialType?: string;
   onViewLedger: (party: Party) => void;
 }
 
-export const PartyMasterView: React.FC<Props> = ({ settings, filterType = 'All', onViewLedger }) => {
+export const PartyMasterView: React.FC<Props> = ({ settings, filterType, initialType = 'All', onViewLedger }) => {
   const [parties, setParties] = useState<Party[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [search, setSearch] = useState<string>('');
-  const [typeFilter, setTypeFilter] = useState<string>(filterType);
+  const [typeFilter, setTypeFilter] = useState<string>(filterType || initialType || 'All');
   const [editingParty, setEditingParty] = useState<Party | null>(null);
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
 

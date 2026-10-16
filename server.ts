@@ -2,7 +2,7 @@ import express from 'express';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
-import { DB, initDatabase } from './server/db.js';
+import { DB, initDatabase } from './server/db.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -370,6 +370,37 @@ async function startServer() {
     res.send(JSON.stringify(backup, null, 2));
   });
 
+  // Offline PC Desktop Downloads
+  app.get('/api/download/pc-package', (req, res) => {
+    const zipPaths = [
+      path.resolve(__dirname, 'public/Sri_Murugan_Transport_PC_Offline_Package.zip'),
+      path.resolve(__dirname, 'dist/Sri_Murugan_Transport_PC_Offline_Package.zip')
+    ];
+    for (const p of zipPaths) {
+      if (fs.existsSync(p)) {
+        res.setHeader('Content-Type', 'application/zip');
+        res.setHeader('Content-Disposition', 'attachment; filename=Sri_Murugan_Transport_PC_Offline_Package.zip');
+        return res.sendFile(p);
+      }
+    }
+    res.status(404).json({ error: 'PC package not found. Building package...' });
+  });
+
+  app.get('/api/download/standalone-html', (req, res) => {
+    const htmlPaths = [
+      path.resolve(__dirname, 'public/Sri_Murugan_Transport_Offline_Desktop_App.html'),
+      path.resolve(__dirname, 'dist/Sri_Murugan_Transport_Offline_Desktop_App.html')
+    ];
+    for (const p of htmlPaths) {
+      if (fs.existsSync(p)) {
+        res.setHeader('Content-Type', 'text/html');
+        res.setHeader('Content-Disposition', 'attachment; filename=Sri_Murugan_Transport_Offline_Desktop_App.html');
+        return res.sendFile(p);
+      }
+    }
+    res.status(404).json({ error: 'Standalone file not found.' });
+  });
+
   app.post('/api/backup/import', (req, res) => {
     try {
       DB.importBackup(req.body, getActingUser(req));
@@ -399,7 +430,10 @@ async function startServer() {
   } else {
     const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
-      server: { middlewareMode: true },
+      server: { 
+        middlewareMode: true,
+        hmr: false,
+      },
       appType: 'spa',
     });
     app.use(vite.middlewares);

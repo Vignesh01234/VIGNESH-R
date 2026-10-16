@@ -1,11 +1,12 @@
-import initSqlJs, { Database } from 'sql.js';
+import initSqlJs from 'sql.js';
+import type { Database } from 'sql.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import type { 
   LR, LRItem, Party, Vehicle, Driver, City, Route, 
   Payment, Expense, CompanySettings, User, AuditLog 
-} from '../src/types/index.js';
+} from '../src/types/index.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -38,6 +39,10 @@ export const DEFAULT_SETTINGS: CompanySettings = {
   taxCalculationBasis: 'freight',
   currencySymbol: '₹',
   printLayout: 'landscape',
+  printPaperSize: 'A4',
+  printCopiesPerSheet: '1',
+  showLogoOnLR: true,
+  logoStyle: 'emblem',
   tagline: 'Prompt, Safe & Reliable Daily Cargo Services Across South India'
 };
 

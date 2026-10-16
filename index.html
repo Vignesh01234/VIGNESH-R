@@ -7,8 +7,43 @@
     <meta name="description" content="Complete transport management system with 4-copy Lorry Receipt generation, master registries, payment tracking, customer ledgers, and operational reports." />
     <meta property="og:title" content="Sri Murugan Transport - Transport Management System" />
     <meta property="og:description" content="Complete transport management system with 4-copy Lorry Receipt generation, master registries, payment tracking, customer ledgers, and operational reports." />
+    <meta name="theme-color" content="#0f172a" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="MuruganTMS" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="manifest" href="/manifest.json" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
+    <script>
+      // Suppress benign Vite HMR websocket connection errors in proxy environment
+      window.addEventListener('error', function (event) {
+        if (event && (
+          (event.message && (event.message.includes('WebSocket') || event.message.includes('@vite/client'))) ||
+          (event.filename && event.filename.includes('@vite/client'))
+        )) {
+          event.stopImmediatePropagation();
+          event.preventDefault();
+          return true;
+        }
+      }, true);
+      window.addEventListener('unhandledrejection', function (event) {
+        if (event && event.reason && (
+          (typeof event.reason.message === 'string' && event.reason.message.includes('WebSocket')) ||
+          (typeof event.reason.stack === 'string' && event.reason.stack.includes('@vite/client'))
+        )) {
+          event.stopImmediatePropagation();
+          event.preventDefault();
+        }
+      }, true);
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW registration skipped:', err));
+        });
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
